@@ -5,14 +5,13 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_sndap")
 
-[node name="Buttons" type="Control" parent="."]
-visible = false
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Button" type="Button" parent="Buttons"]
+[node name="Button" type="Button" parent="Control"]
 layout_mode = 0
 offset_left = 107.0
 offset_top = 77.0
@@ -20,7 +19,7 @@ offset_right = 179.0
 offset_bottom = 118.0
 text = "A"
 
-[node name="Button2" type="Button" parent="Buttons"]
+[node name="Button2" type="Button" parent="Control"]
 layout_mode = 0
 offset_left = 223.0
 offset_top = 77.0
@@ -28,7 +27,7 @@ offset_right = 295.0
 offset_bottom = 118.0
 text = "B"
 
-[node name="Button3" type="Button" parent="Buttons"]
+[node name="Button3" type="Button" parent="Control"]
 layout_mode = 0
 offset_left = 345.0
 offset_top = 77.0
@@ -36,19 +35,10 @@ offset_right = 417.0
 offset_bottom = 118.0
 text = "C"
 
-[node name="Button4" type="Button" parent="Buttons"]
+[node name="Button4" type="Button" parent="Control"]
 layout_mode = 0
 offset_left = 446.0
 offset_top = 77.0
 offset_right = 518.0
 offset_bottom = 118.0
 text = "D"
-
-[node name="NewRound" type="Button" parent="."]
-offset_left = 287.0
-offset_top = 146.0
-offset_right = 349.0
-offset_bottom = 187.0
-text = "New Round"
-
-[connection signal="button_up" from="NewRound" to="." method="_on_new_round_button_up"]

@@ -1,0 +1,97 @@
+In a early play testing this happened look at turn 5
+enemy wanted to make all'em 22 it's like it wasn't random at all
+
+Player team: ["D", "I", "B", "A"]
+Enemy team: ["J", "C", "E", "F"]
+
+Round Start
+
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  24  23  24   |  25  22  17  18  |
+
+===== Turn 0 ======
+
+Player turn ->
+B attacked J, Inflicted 6 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  24  23  24   |  19  22  17  18  |
+
+===== Turn 1 ======
+
+Player turn ->
+A attacked J, Inflicted 5 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  24  23  24   |  14  22  17  18  |
+
+===== Turn 2 ======
+
+Enemy turn ->
+F attacked A, Inflicted 2 damage
+Swapped
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  24  23  22   |  14  22  17  18  |
+
+===== Turn 3 ======
+
+Enemy turn ->
+E attacked I, Inflicted 2 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  22  23  22   |  14  22  17  18  |
+
+===== Turn 4 ======
+
+Player turn ->
+I attacked J, Inflicted 1 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  22  23  22   |  13  22  17  18  |
+
+===== Turn 5 ======
+
+Enemy turn ->
+C attacked B, Inflicted 1 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  22  22  22   |  13  22  17  18  |
+
+===== Turn 6 ======
+
+Enemy turn ->
+J attacked I, Inflicted 5 damage
+Swapped
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  17  22  22   |  13  22  17  18  |
+
+===== Turn 7 ======
+
+Player turn ->
+D attacked J, Inflicted 6 damage
+ _____________________________________
+| Player team      |      Enemy team  |
+|__________________|__________________|
+| D   I   B   A    |  J   C   E   F   |
+| 22  17  22  22   |  7  22  17  18  |
+
+Round End!
