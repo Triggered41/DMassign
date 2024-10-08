@@ -1,105 +1,44 @@
-[gd_scene load_steps=16 format=3 uid="uid://bcflufhmq4g12"]
+[gd_scene load_steps=2 format=3 uid="uid://bcflufhmq4g12"]
 
 [ext_resource type="Script" path="res://GameManger/game_manager.gd" id="1_sndap"]
-[ext_resource type="Script" path="res://Environment/Combatants/combatant.gd" id="2_t6lrx"]
-[ext_resource type="Script" path="res://Environment/Combatants/combatants_pool.gd" id="3_okpdq"]
-
-[sub_resource type="Resource" id="Resource_eg5gh"]
-script = ExtResource("2_t6lrx")
-name = "A"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_a1v77"]
-script = ExtResource("2_t6lrx")
-name = "B"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_8edke"]
-script = ExtResource("2_t6lrx")
-name = "C"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_mag4v"]
-script = ExtResource("2_t6lrx")
-name = "D"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_ffxnc"]
-script = ExtResource("2_t6lrx")
-name = "E"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_vyjsa"]
-script = ExtResource("2_t6lrx")
-name = "F"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_3sanc"]
-script = ExtResource("2_t6lrx")
-name = "G"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_oexbs"]
-script = ExtResource("2_t6lrx")
-name = "H"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_1medw"]
-script = ExtResource("2_t6lrx")
-name = "I"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_o401o"]
-script = ExtResource("2_t6lrx")
-name = "J"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_ce8ak"]
-script = ExtResource("2_t6lrx")
-name = "K"
-health = 0
-initiative = 0
-team = 0
-has_attacked = false
-
-[sub_resource type="Resource" id="Resource_dxdbe"]
-script = ExtResource("3_okpdq")
-POOL_SIZE = 10
-TEAM_SIZE = 4
-pool = Array[ExtResource("2_t6lrx")]([SubResource("Resource_eg5gh"), SubResource("Resource_a1v77"), SubResource("Resource_8edke"), SubResource("Resource_mag4v"), SubResource("Resource_ffxnc"), SubResource("Resource_vyjsa"), SubResource("Resource_3sanc"), SubResource("Resource_oexbs"), SubResource("Resource_1medw"), SubResource("Resource_o401o"), SubResource("Resource_ce8ak")])
-combatants_count = 10
-picked_spots = Array[int]([])
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_sndap")
-pool = SubResource("Resource_dxdbe")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 77.0
+offset_right = 179.0
+offset_bottom = 118.0
+text = "A"
+
+[node name="Button2" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 223.0
+offset_top = 77.0
+offset_right = 295.0
+offset_bottom = 118.0
+text = "B"
+
+[node name="Button3" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 345.0
+offset_top = 77.0
+offset_right = 417.0
+offset_bottom = 118.0
+text = "C"
+
+[node name="Button4" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 446.0
+offset_top = 77.0
+offset_right = 518.0
+offset_bottom = 118.0
+text = "D"
