@@ -12,11 +12,9 @@ signal game_over(winner)
 
 var player_team : Array[Combatant]
 var enemy_team : Array[Combatant]
-
 var all_combs : Array[Combatant]
 var current_turn := 0
 
-var is_game_over = false
 func _ready() -> void:
 	randomize()
 	
@@ -33,7 +31,6 @@ func _ready() -> void:
 	enemy_team = pool.get_team(Combatant.TEAM.ENEMY_TEAM)
 	
 	all_combs = player_team + enemy_team
-	
 
 func start_round():
 	print("\nRound Start\n")
@@ -72,10 +69,7 @@ func start_turn() -> bool:
 		print("Enemy turn ->")
 		
 		curr.attack_t(pick_target(player_team))
-		
 		update_status()
-		
-		#init_count = 0
 		current_turn += 1
 		
 		if check_game_over(): return false
@@ -104,7 +98,6 @@ func get_common_initiatives() -> int:
 	
 	while current_turn+init_count < all_combs.size() and current_initiative == all_combs[current_turn+init_count].initiative:
 		init_count += 1
-		
 	return init_count - 1
 
 func update_status():
@@ -115,7 +108,6 @@ func update_status():
 	print("| ","  ".join(player_team.map(func(x): return "%02d"%x.health)), "   |  ","  ".join(enemy_team.map(func(x): return "%02d"%x.health)), '  |')
 	print("|__________________|__________________|")
 
-var count := 0
 func _on_enemy_select(index: int) -> void:
 	all_combs[current_turn].attack_t(enemy_team[index])
 	update_status()
@@ -139,7 +131,6 @@ func _on_round_end():
 	new_round.show()
 	pool.roll_initiatives(player_team)
 	pool.roll_initiatives(enemy_team)
-	count = 0
 
 func check_game_over() -> bool:
 	var player_team_health = 0
