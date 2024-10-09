@@ -13,9 +13,12 @@ class_name CombatantsPool
 
 ## Initialize the [member combatants_count] to pool size also init combatants ([method Combatant.init])
 func init() -> void:
+	for i in POOL_SIZE:
+		var c = Combatant.new()
+		c.name = char('A'.to_ascii_buffer()[0] + i)
+		c.init()
+		pool.append(c)
 	combatants_count = pool.size()
-	for i in pool:
-		i.init()
 
 ## Returns an array of size [member team_size] default to [member TEAM_SIZE]
 ## returns empty arr if available combatant are less than [member team_size]
@@ -52,6 +55,11 @@ func pick_combatant() -> Combatant:
 	picked_spots.append(index)
 	combatants_count -= 1
 	return combatant
+
+## Rolls new initiatives for each member in team
+func roll_initiatives(team: Array[Combatant]) -> void:
+	for member in team:
+		member.roll_initiative()
 
 ## Re adds the combatant to their respective spot in the pool
 func refill_combatants(batch: Array[Combatant]) -> void:

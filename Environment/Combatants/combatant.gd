@@ -6,7 +6,8 @@ class_name Combatant
 
 @export var name: String ## Name of the combatant
 @export var health: int ## Combatants' health
-@export var initiative: int ## Initiative decides turn, higher intiative -> early turn, In case of draw random combatant will be chosen
+@export var base_initiative: int ## Base Initiative, initiative decides turn, higher intiative -> early turn, In case of draw random combatant will be chosen
+@export var initiative: int ## Calculated from base initiative +/- [0, 3]
 @export var team: int ## Whether the combatant is in player or enemy team
 
 
@@ -20,7 +21,8 @@ enum TEAM{ ## Team enum
 ## initiative => [4, 8]
 func init() -> void:
 	health = randi_range(15, 25)
-	initiative = randi_range(4, 8)
+	base_initiative = randi_range(4, 8)
+	roll_initiative()
 
 ## Applies random damage in range [1, 10] to target
 static func attack(target: Combatant):
@@ -31,6 +33,10 @@ func attack_t(target: Combatant):
 	var a = randi_range(1, 10)
 	print(name, " attacked ", target.name, ", Inflicted " ,a, ' damage')
 	target.health = clampi(target.health-a, 0, 25)
+
+## Assigns new initiative equal to base_intiative +/- [0, 3]
+func roll_initiative():
+	initiative = base_initiative + randi_range(-3, 3)
 
 ## Print the curret stats of the combatant
 func status():

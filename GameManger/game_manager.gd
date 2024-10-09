@@ -2,11 +2,13 @@ extends Node2D
 
 signal round_started
 signal round_ended
+signal game_over(winner)
 
 @export var pool: CombatantsPool
 
 @onready var button_holder: Control = $Buttons
 @onready var new_round: Button = $NewRound
+@onready var label: Label = $Label
 
 var player_team : Array[Combatant]
 var enemy_team : Array[Combatant]
@@ -19,89 +21,68 @@ func _ready() -> void:
 	randomize()
 	
 	round_ended.connect(_on_round_end)
-	
-	pool = CombatantsPool.new()
-	for i in pool.POOL_SIZE:
-		var c = Combatant.new()
-		c.name = char('A'.to_ascii_buffer()[0] + i)
-		pool.pool.append(c)
-	pool.init()
-	
+	game_over.connect(_on_game_over)
 	var buttons = button_holder.get_children() as Array[Button]
 	for i in buttons.size():
 		buttons[i].button_down.connect(_on_enemy_select.bind(i))
-
-func start_round():
-	print("\nRound Start\n")
+	
+	pool = CombatantsPool.new()
+	pool.init()
 	
 	player_team = pool.get_team(Combatant.TEAM.PLAYER_TEAM)
 	enemy_team = pool.get_team(Combatant.TEAM.ENEMY_TEAM)
 	
-	if check_game_over() > -1:
-		print("End Game")
-		update_status()
-		button_holder.hide()
-		return
-		
-	for i in pool.TEAM_SIZE:
-		player_team[i].initiative += randi_range(-3, 3)
-		enemy_team[i].initiative += randi_range(-3, 3)
-	
 	all_combs = player_team + enemy_team
-	all_combs.sort_custom(func (x, y): return x.initiative > y.initiative)
+	
 
+func start_round():
+	print("\nRound Start\n")
+	
 	print("Player team: ", player_team.map(func(x): return x.name))
 	print("Enemy team: ", enemy_team.map(func(x): return x.name))
 	
+	all_combs.sort_custom(func (x, y): return x.initiative > y.initiative)
 	current_turn = 0
-	button_holder.show()
+	
 	update_status()
 	continue_round()
-	
 	round_started.emit()
+	
+	if check_game_over(): return
 
 func continue_round():
-	var is_npc_turn := true
-	while is_npc_turn:
-		is_npc_turn = start_turn()
+	var skip := true
+	while skip:
+		skip = start_turn()
 	
 
 func start_turn() -> bool:
-	if check_game_over() > -1:
-		print("End Game")
-		update_status()
-		button_holder.hide()
-		return false
 	if current_turn >= all_combs.size():
 		round_ended.emit()
 		return false
 	
+	print("\n===== Turn ", current_turn+1,' =====\n')
+	
 	var init_count := get_common_initiatives()
-	
-	print("\n===== Turn ", current_turn,' ======\n')
-	
 	var pick := current_turn + randi_range(0, init_count)
 	var curr := all_combs[pick]
-	print("Pick: ", pick)
-	print("Curr: ", all_combs[pick].name, ', ', all_combs[pick].team)
+	swap(current_turn, pick)
+	
 	if curr.team == Combatant.TEAM.ENEMY_TEAM:
 		print("Enemy turn ->")
 		
 		curr.attack_t(pick_target(player_team))
-		swap(current_turn, pick)
+		
 		update_status()
 		
-		init_count = 0
+		#init_count = 0
 		current_turn += 1
 		
-		if check_game_over() > -1:
-			print("End Game")
-			button_holder.hide()
-			return false
-			
+		if check_game_over(): return false
 		return true
 	else:
 		print("Player turn ->")
+		button_holder.show()
 		return false
 
 func pick_target(team: Array[Combatant]):
@@ -132,18 +113,16 @@ func update_status():
 	print('|__________________|__________________|')
 	print("| ","   ".join(player_team.map(func(x): return x.name)), "    |  ","   ".join(enemy_team.map(func(x): return x.name)), '   |')
 	print("| ","  ".join(player_team.map(func(x): return "%02d"%x.health)), "   |  ","  ".join(enemy_team.map(func(x): return "%02d"%x.health)), '  |')
+	print("|__________________|__________________|")
 
+var count := 0
 func _on_enemy_select(index: int) -> void:
-	#if current_turn >= all_combs.size():
-		#print("\nRound End! PL\n")
-		#return
 	all_combs[current_turn].attack_t(enemy_team[index])
-	current_turn += 1
-		
 	update_status()
-	continue_round()
 	
-			
+	current_turn += 1
+	continue_round()
+	check_game_over()
 
 func swap(a: int, b: int) -> void:
 	var temp = all_combs[a]
@@ -158,16 +137,38 @@ func _on_round_end():
 	print("\nRound End!\n")
 	button_holder.hide()
 	new_round.show()
-	pool.refill_combatants(all_combs)
+	pool.roll_initiatives(player_team)
+	pool.roll_initiatives(enemy_team)
+	count = 0
 
-func check_game_over() -> int:
+func check_game_over() -> bool:
 	var player_team_health = 0
 	var enemy_team_health = 0
 	for i in pool.TEAM_SIZE:
 		player_team_health += player_team[i].health
 		enemy_team_health += enemy_team[i].health
 	if player_team_health <= 0:
-		return Combatant.TEAM.PLAYER_TEAM
+		game_over.emit(Combatant.TEAM.ENEMY_TEAM)
+		return true
 	if enemy_team_health <= 0:
-		return Combatant.TEAM.ENEMY_TEAM
-	return -1
+		game_over.emit(Combatant.TEAM.PLAYER_TEAM)
+		return true
+	return false
+
+func _on_game_over(winner: int):
+	print("\nd===== Game Over =====\n")
+	if winner == Combatant.TEAM.PLAYER_TEAM:
+		print("\n===== Player team won =====\n")
+		label.text = "Player team won"
+		label.show()
+	else:
+		print("\n===== Enemy team won =====\n")
+		label.text = "Enemy team won"
+		label.show()
+	update_status()
+	button_holder.hide()
+	pool.refill_combatants(all_combs)
+
+
+func _on_new_game_button_up() -> void:
+	get_tree().reload_current_scene()

@@ -51,4 +51,20 @@ offset_right = 349.0
 offset_bottom = 187.0
 text = "New Round"
 
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 310.0
+offset_top = 109.0
+offset_right = 350.0
+offset_bottom = 132.0
+
+[node name="NewGame" type="Button" parent="Label"]
+layout_mode = 0
+offset_left = -19.0
+offset_top = 59.0
+offset_right = 74.0
+offset_bottom = 90.0
+text = "New Game"
+
 [connection signal="button_up" from="NewRound" to="." method="_on_new_round_button_up"]
+[connection signal="button_up" from="Label/NewGame" to="." method="_on_new_game_button_up"]
