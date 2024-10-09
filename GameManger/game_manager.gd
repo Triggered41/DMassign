@@ -156,7 +156,7 @@ func check_game_over() -> bool:
 	return false
 
 func _on_game_over(winner: int):
-	print("\nd===== Game Over =====\n")
+	print("\n===== Game Over =====\n")
 	if winner == Combatant.TEAM.PLAYER_TEAM:
 		print("\n===== Player team won =====\n")
 		label.text = "Player team won"

@@ -13,10 +13,14 @@ class_name CombatantsPool
 
 ## Initialize the [member combatants_count] to pool size also init combatants ([method Combatant.init])
 func init() -> void:
+	var combs = []
 	for i in POOL_SIZE:
 		var c = Combatant.new()
 		c.name = char('A'.to_ascii_buffer()[0] + i)
 		c.init()
+		while [c.health, c.initiative] in combs:
+			c.init()
+		combs.append([c.health, c.initiative])
 		pool.append(c)
 	combatants_count = pool.size()
 
